@@ -21,6 +21,7 @@ class Perniagaan extends Model
         'negeri_id',
         'latitude',
         'longitude',
+        'logo',
     ];
 
     public function pemilik()
@@ -46,5 +47,36 @@ class Perniagaan extends Model
     public function produkServis()
     {
         return $this->hasMany(ProdukServis::class, 'perniagaan_id');
+    }
+
+    // Logo helper methods
+    public function getLogoUrlAttribute()
+    {
+        if ($this->logo && \Storage::disk('public')->exists('img/logo/' . $this->logo)) {
+            return asset('storage/img/logo/' . $this->logo);
+        }
+        
+        // Return default logo
+        return asset('storage/img/logo/default-logo.jpg');
+    }
+
+    public function hasLogo()
+    {
+        return $this->logo && \Storage::disk('public')->exists('img/logo/' . $this->logo);
+    }
+
+    // Accessors for template compatibility
+    public function getTelefonAttribute()
+    {
+        return $this->no_telefon;
+    }
+
+    public function getAlamatAttribute()
+    {
+        $alamat = [];
+        if ($this->alamat_baris_1) $alamat[] = $this->alamat_baris_1;
+        if ($this->alamat_baris_2) $alamat[] = $this->alamat_baris_2;
+        if ($this->poskod) $alamat[] = $this->poskod;
+        return implode(', ', $alamat);
     }
 }

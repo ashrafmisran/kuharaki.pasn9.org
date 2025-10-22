@@ -18,6 +18,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Models\Perniagaan;
 
 class AhliPanelProvider extends PanelProvider
 {
@@ -28,6 +29,7 @@ class AhliPanelProvider extends PanelProvider
             ->id('ahli')
             ->path('ahli')
             ->login()
+            ->tenant(Perniagaan::class)
             ->registration()
             ->colors([
                 'primary' => Color::Amber,

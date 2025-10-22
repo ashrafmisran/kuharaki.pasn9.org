@@ -6,6 +6,7 @@ use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\FileUpload;
 
 class PerniagaanForm
 {
@@ -17,6 +18,13 @@ class PerniagaanForm
                     ->label('Nama Perniagaan')
                     ->required()
                     ->maxLength(255),
+                FileUpload::make('logo')
+                    ->label('Logo Perniagaan')
+                    ->image()
+                    ->disk('public')
+                    ->maxSize(2048) // 2MB
+                    ->directory('img/logo')
+                    ->nullable(),
                 Hidden::make('pemilik')
                     ->default(auth()->id()),
                 TextInput::make('no_telefon')
